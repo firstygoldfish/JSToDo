@@ -35,11 +35,11 @@
                         <li>
                             <a href="main.html" style="display: block;">Front Page</a>
                         </li>
-                        <li class="active">
-                            <a href="#" style="display: block;">Projects</a>
-                        </li>
                         <li>
-                            <a href="tasks.html?func=list" style="display: block;">Tasks</a>
+                            <a href="projects.html?func=list" style="display: block;">Projects</a>
+                        </li>
+                        <li class="active">
+                            <a href="#" style="display: block;">Tasks</a>
                         </li>
                         <li>
                             <a href="#" style="display: block;">ToDo</a>
@@ -53,23 +53,24 @@
 </div>
         <div class="container">
             <div class="panel">
-                <div class="panel-heading">Projects View &nbsp; &nbsp;
-                    <a class="btn btn-primary" id="newproject" href="newproject.html?func=new"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Project</a>
+                <div class="panel-heading">Tasks View &nbsp; &nbsp;
+                    <a class="btn btn-primary" id="newtask" href="newtask.html?func=new"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Task</a>
                 </div>                 
             </div>
         </div>
-        <div id="projectdiv">
-            <ul id="projectlist" class="list-group"> 
-                <li class="list-group-item">
-                    <button type="button" class="primary" aria-hidden="true">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="primary" aria-hidden="true">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    <span class="badge">HCT</span>HARD-CODED TEST
-                </li>                 
-            </ul>
+        <div id="tasklist" class="panel-group"> 
+            <div class="panel panel-default"> 
+                <div class="panel-heading"> 
+                    <h4 class="panel-title"><button type="button" class="primary" aria-hidden="true">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>&nbsp;<button type="button" class="primary" aria-hidden="true">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </button>&nbsp;<span class="badge">TFL</span>&nbsp;<a data-toggle="collapse" data-parent="#tasklist" href="#collapse1">Collapsible Group Item #1</a></h4> 
+                </div>                 
+                <div id="collapse1" class="panel-collapse collapse in"> 
+                    <div class="panel-body">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.</div>                     
+                </div>                 
+            </div>             
         </div>
         <div id="confirm" class="modal">
             <div class="modal-footer">
@@ -91,6 +92,6 @@
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-        <script src="js/projects.js"></script>
+        <script src="js/tasks.js"></script>
     </body>
 </html>

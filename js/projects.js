@@ -2,26 +2,35 @@
 var data = new Object();
 if(localStorage.getItem('ToDoTraxProjects')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
-    for (var projid in data) { 
+    for (var projid in data) {
         var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">\
         <button type="button" class="primary" aria-hidden="true" onclick="confirmRemove('+projid+')">\
         <i class="fa fa-times" aria-hidden="true"></i>\
         </button>\
         <button type="button" class="primary" aria-hidden="true" onclick="editProject('+projid+')">\
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-        </button>&nbsp;\
+        </button>\
         '+data[projid].projname+'<span class="badge">'+data[projid].projcode+'</span>\
         </li>'
-        $('#projectlist').append(htmlcode); 
+        $('#projectlist').append(htmlcode);
     }
 }
 
-// Get page Name
-//var pagename = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-//alert(pagename);
+// Get page function
+var pagefunc = getParameterByName('func');
+if (pagefunc != 'list') { $('#pagetitle').html(initCap(pagefunc) + ' Project'); }
 
-projid = new Date().getTime();
-$('#newprojectid').val(projid);
+if (pagefunc == 'edit') {
+  // Populate edit values
+  var projid = getParameterByName('id');
+  $('#newprojectname').val(data[projid].projname);
+  $('#newprojectcode').val(data[projid].projcode);
+  $('#newprojectdescription').val(data[projid].projdesc);
+} else if (pagefunc == 'new') {
+  // Generate new ID
+  projid = new Date().getTime();
+  $('#newprojectid').val(projid);
+}
 
 $('#saveproject').click( function() {
     var projname = $('#newprojectname').val();
@@ -40,8 +49,10 @@ $('#saveproject').click( function() {
   // Saving element in local storage
   data[projid] = tempData;
   saveData(data);
-  window.location('projects.html');
+  window.location('projects.html?func=list');
 });
+
+// F U N C T I O N S============================================================
 
 // SAVE DATA TO LOCAL STORAGE
 function saveData(newdata) {
@@ -74,6 +85,25 @@ function removeProject(projid) {
 
 // EDIT PROJECT
 function editProject(projid) {
-    alert('Edit Project:' + projid);
+    window.location('newproject.html?func=edit&id='+projid);
 }
 
+// GET URL PARAMETERS
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+// INITCAP extension to STRING
+function initCap (msg) {
+   return msg.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
+      return m.toUpperCase();
+   });
+};

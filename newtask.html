@@ -11,12 +11,12 @@
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="starter-template.css" rel="stylesheet">
+        <link href="css/bootstrap-datepicker3.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -35,10 +35,10 @@
                         <li>
                             <a href="main.html" style="display: block;">Front Page</a>
                         </li>
-                        <li class="active">
-                            <a href="#" style="display: block;">Projects</a>
-                        </li>
                         <li>
+                            <a href="projects.html" style="display: block;">Projects</a>
+                        </li>
+                        <li class="active">
                             <a href="tasks.html?func=list" style="display: block;">Tasks</a>
                         </li>
                         <li>
@@ -53,44 +53,45 @@
 </div>
         <div class="container">
             <div class="panel">
-                <div class="panel-heading">Projects View &nbsp; &nbsp;
-                    <a class="btn btn-primary" id="newproject" href="newproject.html?func=new"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Project</a>
-                </div>                 
+                <div class="panel-heading" id="pagetitle">PageTitle&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>                 
             </div>
         </div>
-        <div id="projectdiv">
-            <ul id="projectlist" class="list-group"> 
-                <li class="list-group-item">
-                    <button type="button" class="primary" aria-hidden="true">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="primary" aria-hidden="true">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    <span class="badge">HCT</span>HARD-CODED TEST
-                </li>                 
-            </ul>
-        </div>
-        <div id="confirm" class="modal">
-            <div class="modal-footer">
-                <div class="panel-group">
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">CONFIRM DELETE</div>
-                        <div class="panel-body">Are you sure ?&nbsp;</div>
-                        <button type="button" data-dismiss="modal" class="btn btn-danger" id="delete">Delete</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-success">Cancel</button>
-                    </div>
+        <form role="form"> 
+            <div class="form-group"> 
+                <label class="control-label" for="projectdescription">Parent Project</label>
+                <select id="newprojectoption" class="form-control"> 
+                    <option value="0">ToDo</option>                     
+                </select>
+            </div>
+            <div class="form-group"> 
+                <input type="text" class="form-control" placeholder="Project ID" id="newtaskid" style="display:none">
+                <label class="control-label" for="newprojectname">Task Name
+</label>                 
+                <input type="email" class="form-control" id="newtaskname" placeholder="Enter name"> 
+            </div>             
+            <div class="form-group">
+                <label class="control-label" for="projectdescription">Task Description</label>
+                <textarea class="form-control" id="newtaskdescription" placeholder="Enter description" rows="3"></textarea>                 
+            </div>             
+            <div id="sandbox-container"> 
+                <div class="input-group date">
+                    <input type="text" class="form-control">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                 </div>
-            </div>
-        </div>
+            </div>             
+            <div class="checkbox"> 
+</div>             
+            <button id="saveproject" type="button" class="btn">Save</button>             
+        </form>
         <!-- /.container -->
         <!-- Bootstrap core JavaScript
     ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="assets/js/jquery.min.js"></script>
+        <script src="js/bootstrap-datepicker.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-        <script src="js/projects.js"></script>
+        <script src="js/tasks.js"></script>
     </body>
 </html>
