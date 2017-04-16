@@ -49,35 +49,35 @@
                 <!--/.nav-collapse -->
             </div>
         </div>
-        <div class="container">
-</div>
-        <div class="container">
-            <div class="panel">
-                <div class="panel-heading" id="pagetitle">PageTitle&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</div>                 
+        <div class="container" style="padding:5px">
+            <div class="panel panel-primary">
+                <div id="pagetitle" class="panel-heading">New Project</div>
+                <div class="panel-body">
+                    <form role="form"> 
+                        <div class="form-group"> 
+                            <input type="text" class="form-control" placeholder="Project ID" id="newprojectid" style="display:none">
+                            <label class="control-label" for="newprojectname">
+                                Project Name
+</label>                             
+                            <input type="email" class="form-control" id="newprojectname" placeholder="Enter name"> 
+                        </div>                         
+                        <div class="form-group"> 
+                            <label class="control-label" for="projectcode">Project Shortcode</label>                             
+                            <input type="text" class="form-control" id="newprojectcode" placeholder="Enter code"> 
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="projectdescription">Project Description</label>
+                            <textarea class="form-control" id="newprojectdescription" placeholder="Enter description" rows="3"></textarea>                             
+                        </div>                         
+                        <div class="form-group"> 
+</div>                         
+                        <div class="checkbox"> 
+</div>                         
+                        <button id="saveproject" type="button" class="btn">Save</button>                         
+                    </form>
+                </div>
             </div>
         </div>
-        <form role="form"> 
-            <div class="form-group"> 
-                <input type="text" class="form-control" placeholder="Project ID" id="newprojectid" style="display:none">
-                <label class="control-label" for="newprojectname">
-                    Project Name
-</label>                 
-                <input type="email" class="form-control" id="newprojectname" placeholder="Enter name"> 
-            </div>             
-            <div class="form-group"> 
-                <label class="control-label" for="projectcode">Project Shortcode</label>                 
-                <input type="text" class="form-control" id="newprojectcode" placeholder="Enter code"> 
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="projectdescription">Project Description</label>
-                <textarea class="form-control" id="newprojectdescription" placeholder="Enter description" rows="3"></textarea>                 
-            </div>             
-            <div class="form-group"> 
-</div>             
-            <div class="checkbox"> 
-</div>             
-            <button id="saveproject" type="button" class="btn">Save</button>             
-        </form>
         <!-- /.container -->
         <!-- Bootstrap core JavaScript
     ================================================== -->

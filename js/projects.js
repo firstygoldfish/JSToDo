@@ -49,7 +49,7 @@ $('#saveproject').click( function() {
   // Saving element in local storage
   data[projid] = tempData;
   saveData(data);
-  window.location('projects.html?func=list');
+  window.location.replace('projects.html?func=list');
 });
 
 // F U N C T I O N S============================================================
@@ -85,7 +85,7 @@ function removeProject(projid) {
 
 // EDIT PROJECT
 function editProject(projid) {
-    window.location('newproject.html?func=edit&id='+projid);
+    window.location.replace('newproject.html?func=edit&id='+projid);
 }
 
 // GET URL PARAMETERS

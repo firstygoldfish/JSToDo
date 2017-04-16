@@ -9,17 +9,23 @@ if(localStorage.getItem('ToDoTraxTasks')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxTasks"));
     console.log('Tasks Loaded');
     for (var taskid in data) {
-        var htmlcode = '<div class="panel panel-default"> \
+      var duemss = "";
+      if (data[taskid].taskdue == undefined) {
+        duemsg = "N/A";
+      } else {
+        duemsg = data[taskid].taskdue;
+      }
+        var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
                 <div class="panel-heading"> \
-                <h4 class="panel-title"><button type="button" class="primary" aria-hidden="true">\
+                <h4 class="panel-title"><button type="button" class="primary" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
                 <i class="fa fa-times" aria-hidden="true"></i>\
-                </button>&nbsp;<button type="button" class="primary" aria-hidden="true">\
+                </button>&nbsp;<button type="button" class="primary" aria-hidden="true" onclick="editTask('+taskid+')">\
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
                 </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
-                <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASK_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
+                <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
                 </div>                 \
-                <div id="TASK_'+taskid+'" class="panel-collapse collapse"> \
-                <div class="panel-body">'+data[taskid].taskdesc+'</div> \
+                <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
+                <div class="panel-body"><span class="badge">Due: '+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
                 </div> \
                 </div> '
         $('#tasklist').append(htmlcode);
@@ -45,22 +51,42 @@ if (pagefunc == 'edit') {
   $('#newtaskproj').val(data[taskid].taskproj);
   $('#newtaskname').val(data[taskid].taskname);
   $('#newtaskdescription').val(data[taskid].taskdesc);
+  $('#newtaskduedate').val(data[taskid].taskdue);
+  $('#newtaskcreatedate').val(data[taskid].taskcreated);
+  $('#newtasknotes').val(data[taskid].tasknotes);
+  $('#tasknotes').show();
 } else if (pagefunc == 'new') {
   // Generate new ID
   taskid = new Date().getTime();
   $('#newtaskid').val(taskid);
+  $('#newtaskcreatedate').val(formattedDate());
 }
+
+$('#OLDsaveproject').click( function() {
+  alert('HERE');
+  alert('EDIT='+$('.fs-editable').html());
+});
 
 $('#saveproject').click( function() {
     var taskproj = $('#newprojectoption').find(":selected").val();
     var taskname = $('#newtaskname').val();
     var taskdesc = $('#newtaskdescription').val();
+    var taskdue = $('#newtaskduedate').val();
+    var taskcreated = $('#newtaskcreatedate').val();
+    if (pagefunc == 'new') {
+      var tasknotes = "";
+    } else {
+      var tasknotes = $('.fs-editable').html();
+    }
 
   tempData = {
     taskid: taskid,
     taskproj: taskproj,
     taskname: taskname,
-    taskdesc: taskdesc
+    taskdesc: taskdesc,
+    taskdue: taskdue,
+    taskcreated: taskcreated,
+    tasknotes: tasknotes
   };
 
   //alert ('Name:'+projname+' code:'+projcode+' description:'+projdesc);
@@ -68,7 +94,7 @@ $('#saveproject').click( function() {
   // Saving element in local storage
   data[taskid] = tempData;
   saveData(data);
-  window.location('tasks.html?func=list');
+  window.location.replace('tasks.html?func=list');
 });
 
 // Setup data picker
@@ -111,8 +137,8 @@ function removeProject(taskid) {
 }
 
 // EDIT PROJECT
-function editProject(taskid) {
-    window.location('newtask.html?func=edit&id='+taskid);
+function editTask(taskid) {
+    window.location.replace('newtask.html?func=edit&id='+taskid);
 }
 
 // GET URL PARAMETERS
@@ -134,3 +160,15 @@ function initCap (msg) {
       return m.toUpperCase();
    });
 };
+
+// Format date
+function formattedDate(d = new Date) {
+  let month = String(d.getMonth() + 1);
+  let day = String(d.getDate());
+  const year = String(d.getFullYear());
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return `${month}/${day}/${year}`;
+}
