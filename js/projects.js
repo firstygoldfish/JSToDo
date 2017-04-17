@@ -4,11 +4,14 @@ if(localStorage.getItem('ToDoTraxProjects')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
     for (var projid in data) {
         var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">\
-        <button type="button" class="primary" aria-hidden="true" onclick="confirmRemove('+projid+')">\
+        <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+projid+')">\
         <i class="fa fa-times" aria-hidden="true"></i>\
         </button>\
-        <button type="button" class="primary" aria-hidden="true" onclick="editProject('+projid+')">\
+        <button type="button" class="btn btn-default" aria-hidden="true" onclick="editProject('+projid+')">\
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+        </button>\
+        <button type="button" class="btn btn-primary" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
+        <i class="fa fa-object-group" aria-hidden="true"></i>\
         </button>\
         '+data[projid].projname+'<span class="badge">'+data[projid].projcode+'</span>\
         </li>'

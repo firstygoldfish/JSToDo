@@ -1,54 +1,79 @@
-// Get data from loca storage
+// Get page function
+var pagefunc = getParameterByName('func');
+var pagefilter = getParameterByName('filter');
+
+// Get Project data from loca storage
 var projdata = new Object();
 var data = new Object();
 if(localStorage.getItem('ToDoTraxProjects')) {
     projdata = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
-    console.log('Projects Loaded');
 }
+
+// update page elements
+if (pagefunc != 'list') {
+  $('#pagetitle').html('Task : ' + initCap(pagefunc));
+  for (var projid in projdata) {
+    $('#newtaskproject').append($('<option></option>').attr('value',projid).text(projdata[projid].projname));
+  }
+}
+
+// Get Task data from local storage
 if(localStorage.getItem('ToDoTraxTasks')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxTasks"));
-    console.log('Tasks Loaded');
+    var sortdata = new Array();
     for (var taskid in data) {
-      var duemss = "";
-      if (data[taskid].taskdue == undefined) {
-        duemsg = "N/A";
-      } else {
-        duemsg = data[taskid].taskdue;
+      if (pagefunc == 'list') {
+        // Full List ordered by due date
+        if (pagefilter == undefined) {
+          $('#pagetitle').html('Tasks View  (Sort : Due Date)');
+          sortdata[taskid] = changeDate(data[taskid].taskdue);
+        } else {
+          // Filter by project
+          $('#pagetitle').html('Tasks View  (Project : ' + projdata[pagefilter].projname + ' / Sort : Due Date)');
+          if (data[taskid].taskproj == pagefilter) {
+            sortdata[taskid] = changeDate(data[taskid].taskdue);
+          }
+        }
       }
-        var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
-                <div class="panel-heading"> \
-                <h4 class="panel-title"><button type="button" class="primary" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
-                <i class="fa fa-times" aria-hidden="true"></i>\
-                </button>&nbsp;<button type="button" class="primary" aria-hidden="true" onclick="editTask('+taskid+')">\
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-                </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
-                <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
-                </div>                 \
-                <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
-                <div class="panel-body"><span class="badge">Due: '+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
-                </div> \
-                </div> '
-        $('#tasklist').append(htmlcode);
+    }
+    // Sort by due date then generate the elements in order
+    keysSorted = Object.keys(sortdata).sort(function(a,b){return sortdata[a]-sortdata[b]});
+    for (var i=0; i < keysSorted.length; i++ ) {
+      generateTaskElement(keysSorted[i]);
     }
 }
 
-function getProjCode(projid) {
-  if (projid == 0) { return 'ToDo'; }
-  return projdata[projid].projcode;
-}
-// Get page function
-var pagefunc = getParameterByName('func');
-if (pagefunc != 'list') {
-  $('#pagetitle').html(initCap(pagefunc) + ' Task');
-  for (var projid in projdata) {
-    $('#newprojectoption').append($('<option></option>').attr('value',projid).text(projdata[projid].projname));
+function generateTaskElement(taskid) {
+  var duemsg = "";
+  if (data[taskid].taskdue == undefined || data[taskid].taskdue == "") {
+    duemsg = "No Due Date";
+  } else {
+    duemsg = 'Due: ' + data[taskid].taskdue;
   }
+  var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
+            <div class="panel-heading"> \
+            <h4 class="panel-title"><button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
+            <i class="fa fa-times" aria-hidden="true"></i>\
+            </button>&nbsp;<button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+            </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
+            <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
+            </div>                 \
+            <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
+            <div class="panel-body"><span class="badge">'+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
+            </div> \
+            </div> '
+    $('#tasklist').append(htmlcode);
 }
+
+//CARL TEST
+
+// CARL TEST
 
 if (pagefunc == 'edit') {
   // Populate edit values
   var taskid = getParameterByName('id');
-  $('#newtaskproj').val(data[taskid].taskproj);
+  $('#newtaskproject').val(data[taskid].taskproj);
   $('#newtaskname').val(data[taskid].taskname);
   $('#newtaskdescription').val(data[taskid].taskdesc);
   $('#newtaskduedate').val(data[taskid].taskdue);
@@ -68,7 +93,7 @@ $('#OLDsaveproject').click( function() {
 });
 
 $('#saveproject').click( function() {
-    var taskproj = $('#newprojectoption').find(":selected").val();
+    var taskproj = $('#newtaskproject').find(":selected").val();
     var taskname = $('#newtaskname').val();
     var taskdesc = $('#newtaskdescription').val();
     var taskdue = $('#newtaskduedate').val();
@@ -97,13 +122,16 @@ $('#saveproject').click( function() {
   window.location.replace('tasks.html?func=list');
 });
 
-// Setup data picker
-$('#sandbox-container .input-group.date').datepicker({
-    language: "en-GB",
-    daysOfWeekHighlighted: "1,2,3,4,5",
-    autoclose: true,
-    todayHighlight: true
-});
+// Setup data picker - For add / edit
+if (pagefunc != 'list') {
+  $('#sandbox-container .input-group.date').datepicker({
+      language: "en-GB",
+      format: "dd/mm/yyyy",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+}
 
 // F U N C T I O N S============================================================
 
@@ -170,5 +198,18 @@ function formattedDate(d = new Date) {
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
 
-  return `${month}/${day}/${year}`;
+  return `${day}/${month}/${year}`;
+}
+
+// Return project code of ToDo for project 0 as not a project
+function getProjCode(projid) {
+  if (projid == 0) { return 'ToDo'; }
+  return projdata[projid].projcode;
+}
+
+// Change to mathematical order date to order dates easily
+function changeDate(indate) {
+  if (indate == undefined) { indate = "31/12/3000"; }
+  var outdate = indate.substring(6,9) + indate.substring(3,4) + indate.substring(0,1);
+  return outdate;
 }
