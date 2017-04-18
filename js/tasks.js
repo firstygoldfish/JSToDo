@@ -4,9 +4,18 @@ var pagefilter = getParameterByName('filter');
 
 // Get Project data from loca storage
 var projdata = new Object();
-var data = new Object();
+tempData = {
+  projid : 0,
+  projname: 'ToDo',
+  projcode: 'ToDo',
+  projdesc: 'General ToDo Tasks. Not directly linked to a project.'
+};
+
 if(localStorage.getItem('ToDoTraxProjects')) {
     projdata = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
+    projdata[0] = tempData;
+} else {
+  projdata[0] = tempData;
 }
 
 // update page elements
@@ -17,6 +26,7 @@ if (pagefunc != 'list') {
   }
 }
 
+var data = new Object();
 // Get Task data from local storage
 if(localStorage.getItem('ToDoTraxTasks')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxTasks"));
@@ -51,14 +61,15 @@ function generateTaskElement(taskid) {
     duemsg = 'Due: ' + data[taskid].taskdue;
   }
   var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
-            <div class="panel-heading"> \
-            <h4 class="panel-title"><button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
+            <div class="panel-heading"> <h4 class="panel-title">\
+            <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
             <i class="fa fa-times" aria-hidden="true"></i>\
-            </button>&nbsp;<button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
+            </button>\
+            <button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-            </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
+            </button>&nbsp;&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
             <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
-            </div>                 \
+            </div> \
             <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
             <div class="panel-body"><span class="badge">'+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
             </div> \
@@ -184,9 +195,11 @@ function getParameterByName(name, url) {
 
 // INITCAP extension to STRING
 function initCap (msg) {
+  if (msg.length > 0) {
    return msg.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
       return m.toUpperCase();
    });
+  }
 };
 
 // Format date
@@ -204,7 +217,11 @@ function formattedDate(d = new Date) {
 // Return project code of ToDo for project 0 as not a project
 function getProjCode(projid) {
   if (projid == 0) { return 'ToDo'; }
-  return projdata[projid].projcode;
+  if (projdata[projid] == undefined) {
+    return 'DELETED PROJECT'; // As we delete projects but leave tasks (just in case)
+  } else {
+    return projdata[projid].projcode;
+  }
 }
 
 // Change to mathematical order date to order dates easily

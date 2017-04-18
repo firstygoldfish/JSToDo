@@ -1,22 +1,39 @@
 // Get data from loca storage
 var data = new Object();
+tempData = {
+  projid : 0,
+  projname: 'ToDo',
+  projcode: 'ToDo',
+  projdesc: 'General ToDo Tasks. Not directly linked to a project.'
+};
 if(localStorage.getItem('ToDoTraxProjects')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
+    data[0] = tempData;
     for (var projid in data) {
-        var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">\
-        <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+projid+')">\
-        <i class="fa fa-times" aria-hidden="true"></i>\
-        </button>\
-        <button type="button" class="btn btn-default" aria-hidden="true" onclick="editProject('+projid+')">\
-        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-        </button>\
-        <button type="button" class="btn btn-primary" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
+        var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">';
+        if (projid != 0) {
+          htmlcode += '<button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+projid+')">\
+          <i class="fa fa-times" aria-hidden="true"></i>\
+          </button>\
+          <button type="button" class="btn btn-default" aria-hidden="true" onclick="editProject('+projid+')">\
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+          </button>';
+        } else {
+          htmlcode += '<button type="button" class="btn btn-danger" aria-hidden="true">\
+          <i class="fa fa-ban" aria-hidden="true"></i></button>\
+          <button type="button" class="btn btn-default" aria-hidden="true">\
+          <i class="fa fa-ban" aria-hidden="true"></i>\
+          </button>';
+        }
+        htmlcode += '&nbsp;<button type="button" class="btn btn-primary" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
         <i class="fa fa-object-group" aria-hidden="true"></i>\
-        </button>\
-        '+data[projid].projname+'<span class="badge">'+data[projid].projcode+'</span>\
+        </button>&nbsp;&nbsp;<strong>\
+        '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
         </li>'
         $('#projectlist').append(htmlcode);
     }
+} else {
+  data[0] = tempData;
 }
 
 // Get page function
