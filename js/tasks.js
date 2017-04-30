@@ -25,6 +25,7 @@ if (pagefunc != 'list') {
     $('#newtaskproject').append($('<option></option>').attr('value',projid).text(projdata[projid].projname));
   }
 }
+if (pagefunc == 'new') { $('#newtaskname').focus(); }
 
 var data = new Object();
 // Get Task data from local storage
@@ -53,34 +54,6 @@ if(localStorage.getItem('ToDoTraxTasks')) {
     }
 }
 
-function generateTaskElement(taskid) {
-  var duemsg = "";
-  if (data[taskid].taskdue == undefined || data[taskid].taskdue == "") {
-    duemsg = "No Due Date";
-  } else {
-    duemsg = 'Due: ' + data[taskid].taskdue;
-  }
-  var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
-            <div class="panel-heading"> <h4 class="panel-title">\
-            <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
-            <i class="fa fa-times" aria-hidden="true"></i>\
-            </button>\
-            <button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
-            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-            </button>&nbsp;&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
-            <a class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
-            </div> \
-            <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
-            <div class="panel-body"><span class="badge">'+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
-            </div> \
-            </div> '
-    $('#tasklist').append(htmlcode);
-}
-
-//CARL TEST
-
-// CARL TEST
-
 if (pagefunc == 'edit') {
   // Populate edit values
   var taskid = getParameterByName('id');
@@ -98,12 +71,7 @@ if (pagefunc == 'edit') {
   $('#newtaskcreatedate').val(formattedDate());
 }
 
-$('#OLDsaveproject').click( function() {
-  alert('HERE');
-  alert('EDIT='+$('.fs-editable').html());
-});
-
-$('#saveproject').click( function() {
+$('#savetask').click( function() {
     var taskproj = $('#newtaskproject').find(":selected").val();
     var taskname = $('#newtaskname').val();
     var taskdesc = $('#newtaskdescription').val();
@@ -115,22 +83,34 @@ $('#saveproject').click( function() {
       var tasknotes = $('.fs-editable').html();
     }
 
-  tempData = {
-    taskid: taskid,
-    taskproj: taskproj,
-    taskname: taskname,
-    taskdesc: taskdesc,
-    taskdue: taskdue,
-    taskcreated: taskcreated,
-    tasknotes: tasknotes
-  };
+    // Form Validation
+    if (taskname.length == 0) {
+      alert('Task Name Missing');
+      $('#newtaskname').focus();
+      return;
+    }
+    if (checkTaskExist(taskname) != 0) {
+      alert('Task Already Exists');
+      $('#newtaskname').focus();
+      return;
+    }
 
-  //alert ('Name:'+projname+' code:'+projcode+' description:'+projdesc);
+    tempData = {
+      taskid: taskid,
+      taskproj: taskproj,
+      taskname: taskname,
+      taskdesc: taskdesc,
+      taskdue: taskdue,
+      taskcreated: taskcreated,
+      tasknotes: tasknotes
+    };
 
-  // Saving element in local storage
-  data[taskid] = tempData;
-  saveData(data);
-  window.location.replace('tasks.html?func=list');
+    //alert ('Name:'+projname+' code:'+projcode+' description:'+projdesc);
+
+    // Saving element in local storage
+    data[taskid] = tempData;
+    saveData(data);
+    window.location.replace('tasks.html?func=list');
 });
 
 // Setup data picker - For add / edit
@@ -145,6 +125,41 @@ if (pagefunc != 'list') {
 }
 
 // F U N C T I O N S============================================================
+
+// CHECK FOR DUPLICATE TASK
+function checkTaskExist(taskname) {
+  var projFound = 0;
+  for (var taskid in data) {
+    if (data[taskid].taskname.toLowerCase() == taskname.toLowerCase()) {
+      projFound++;
+    }
+  }
+  return projFound;
+}
+
+function generateTaskElement(taskid) {
+  var duemsg = "";
+  if (data[taskid].taskdue == undefined || data[taskid].taskdue == "") {
+    duemsg = "No Due Date";
+  } else {
+    duemsg = 'Due: ' + data[taskid].taskdue;
+  }
+  var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
+            <div class="panel-heading"> <h4 class="panel-title">\
+            <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
+            <i class="fa fa-times" aria-hidden="true"></i>\
+            </button>\
+            <button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+            </button>&nbsp;&nbsp;<br/><span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
+            <a style="display:inline-block; padding-top:10px;" class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
+            </div> \
+            <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
+            <div class="panel-body"><span class="badge">'+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
+            </div> \
+            </div> '
+    $('#tasklist').append(htmlcode);
+}
 
 // SAVE DATA TO LOCAL STORAGE
 function saveData(newdata) {

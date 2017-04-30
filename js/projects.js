@@ -39,6 +39,7 @@ if(localStorage.getItem('ToDoTraxProjects')) {
 // Get page function
 var pagefunc = getParameterByName('func');
 if (pagefunc != 'list') { $('#pagetitle').html(initCap(pagefunc) + ' Project'); }
+if (pagefunc == 'new') { $('#newprojectname').focus(); }
 
 if (pagefunc == 'edit') {
   // Populate edit values
@@ -53,26 +54,57 @@ if (pagefunc == 'edit') {
 }
 
 $('#saveproject').click( function() {
+    var procErrors = 0;
     var projname = $('#newprojectname').val();
     var projcode = $('#newprojectcode').val();
     var projdesc = $('#newprojectdescription').val();
 
-  tempData = {
-    projid : projid,
-    projname: projname,
-    projcode: projcode,
-    projdesc: projdesc
-  };
+    // Form Validation
+    if (projname.length == 0) {
+      alert('Project Name Missing');
+      $('#newprojectname').focus();
+      return;
+    }
+    if (projcode.length == 0) {
+      alert('Project Short Code Missing');
+      $('#newprojectcode').focus();
+      return;
+    }
+    if (checkProjectExist(projname) != 0) {
+      alert('Project Already Exists');
+      $('#newprojectname').focus();
+      return;
+    }
 
-  //alert ('Name:'+projname+' code:'+projcode+' description:'+projdesc);
+    if (procErrors == 0) {
+      tempData = {
+        projid : projid,
+        projname: projname,
+        projcode: projcode,
+        projdesc: projdesc
+      };
 
-  // Saving element in local storage
-  data[projid] = tempData;
-  saveData(data);
-  window.location.replace('projects.html?func=list');
+      //alert ('Name:'+projname+' code:'+projcode+' description:'+projdesc);
+
+      // Saving element in local storage
+      data[projid] = tempData;
+      saveData(data);
+      window.location.replace('projects.html?func=list');
+    }
 });
 
 // F U N C T I O N S============================================================
+
+// CHECK FOR DUPLICATE PROJECT
+function checkProjectExist(projname) {
+  var projFound = 0;
+  for (var projid in data) {
+    if (data[projid].projname.toLowerCase() == projname.toLowerCase()) {
+      projFound++;
+    }
+  }
+  return projFound;
+}
 
 // SAVE DATA TO LOCAL STORAGE
 function saveData(newdata) {
