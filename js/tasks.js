@@ -1,5 +1,6 @@
 // Get page function
 var pagefunc = getParameterByName('func');
+if (pagefunc == undefined) { pagefunc = 'list'; }
 var pagefilter = getParameterByName('filter');
 
 // Get Project data from loca storage
@@ -153,11 +154,11 @@ function generateTaskElement(taskid) {
             </button>\
             <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editTask('+taskid+')">\
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-            </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span><br/>\
+            </button>&nbsp;<span class="label label-info">'+duemsg+'</span>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span><br/>\
             <a style="display:inline-block; padding-top:10px;" class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
             </div> \
             <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \
-            <div class="panel-body"><span class="badge">'+duemsg+'</span>&nbsp;'+data[taskid].taskdesc+'</div> \
+            <div class="panel-body">'+data[taskid].taskdesc+'</div> \
             </div> \
             </div> '
     $('#tasklist').append(htmlcode);
