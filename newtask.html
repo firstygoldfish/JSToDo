@@ -68,7 +68,7 @@
                         <div id="sandbox-container">
                             <label class="control-label" for="projectdescription">Date Due</label>
                             <div class="input-group date">
-                                <input id="newtaskduedate" type="text" class="form-control">
+                                <input id="newtaskduedate" type="text" class="form-control" readonly>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
                         </div>
@@ -97,12 +97,12 @@
         <script src="js/jquery.fseditor-min.js"></script>
         <script>
                   $(".mytextarea").fseditor({
-  overlay: true,
+  overlay: false,
   expandOnFocus: false,
   transition: 'slide-in', // 'fade', 'slide-in',
   placeholder: 'Task Notes',
   maxWidth: '95%', // maximum width of the editor on fullscreen mode
-  maxHeight: '80%' // maximum height of the editor on fullscreen mode
+  maxHeight: '75%' // maximum height of the editor on fullscreen mode
 });
                 </script>
     </body>

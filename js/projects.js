@@ -26,7 +26,7 @@ if(localStorage.getItem('ToDoTraxProjects')) {
           </button>';
         }
         htmlcode += '&nbsp;<button type="button" class="btn btn-primary" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
-        <i class="fa fa-object-group" aria-hidden="true"></i>\
+        <i class="fa fa-filter" aria-hidden="true"></i>\
         </button>&nbsp;&nbsp;<strong>\
         '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
         </li>'
