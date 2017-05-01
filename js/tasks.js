@@ -89,10 +89,12 @@ $('#savetask').click( function() {
       $('#newtaskname').focus();
       return;
     }
-    if (checkTaskExist(taskname) != 0) {
-      alert('Task Already Exists');
-      $('#newtaskname').focus();
-      return;
+    if (pagefunc == 'new') {
+      if (checkTaskExist(taskname) != 0) {
+        alert('Task Already Exists');
+        $('#newtaskname').focus();
+        return;
+      }
     }
 
     tempData = {

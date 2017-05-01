@@ -70,10 +70,12 @@ $('#saveproject').click( function() {
       $('#newprojectcode').focus();
       return;
     }
-    if (checkProjectExist(projname) != 0) {
-      alert('Project Already Exists');
-      $('#newprojectname').focus();
-      return;
+    if (pagefunc == 'new') {
+      if (checkProjectExist(projname) != 0) {
+        alert('Project Already Exists');
+        $('#newprojectname').focus();
+        return;
+      }
     }
 
     if (procErrors == 0) {
