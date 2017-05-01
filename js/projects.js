@@ -9,31 +9,10 @@ tempData = {
 if(localStorage.getItem('ToDoTraxProjects')) {
     data = JSON.parse(localStorage.getItem("ToDoTraxProjects"));
     data[0] = tempData;
-    for (var projid in data) {
-        var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">';
-        if (projid != 0) {
-          htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true" onclick="confirmRemove('+projid+')">\
-          <i class="fa fa-times" aria-hidden="true"></i>\
-          </button>\
-          <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editProject('+projid+')">\
-          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-          </button>';
-        } else {
-          htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true">\
-          <i class="fa fa-ban" aria-hidden="true"></i></button>\
-          <button type="button" class="btn btn-default btn-xs" aria-hidden="true">\
-          <i class="fa fa-ban" aria-hidden="true"></i>\
-          </button>';
-        }
-        htmlcode += '&nbsp;<button type="button" class="btn btn-primary btn-xs" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
-        <i class="fa fa-filter" aria-hidden="true"></i>\
-        </button>&nbsp;<strong>\
-        '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
-        </li>'
-        $('#projectlist').append(htmlcode);
-    }
+    generateProjectElements();
 } else {
   data[0] = tempData;
+  generateProjectElements();
 }
 
 // Get page function
@@ -96,6 +75,33 @@ $('#saveproject').click( function() {
 });
 
 // F U N C T I O N S============================================================
+
+// GENERATE PROJECT ELEMENTS
+function generateProjectElements() {
+  for (var projid in data) {
+      var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">';
+      if (projid != 0) {
+        htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true" onclick="confirmRemove('+projid+')">\
+        <i class="fa fa-times" aria-hidden="true"></i>\
+        </button>\
+        <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editProject('+projid+')">\
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+        </button>';
+      } else {
+        htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true">\
+        <i class="fa fa-ban" aria-hidden="true"></i></button>\
+        <button type="button" class="btn btn-default btn-xs" aria-hidden="true">\
+        <i class="fa fa-ban" aria-hidden="true"></i>\
+        </button>';
+      }
+      htmlcode += '&nbsp;<button type="button" class="btn btn-primary btn-xs" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
+      <i class="fa fa-filter" aria-hidden="true"></i>\
+      </button>&nbsp;<strong>\
+      '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
+      </li>'
+      $('#projectlist').append(htmlcode);
+    }
+}
 
 // CHECK FOR DUPLICATE PROJECT
 function checkProjectExist(projname) {
