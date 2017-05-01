@@ -32,14 +32,14 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="#" style="display: block;">Projects</a>
+                        <li>
+                            <a href="projects.html?func=list" style="display: block;">Projects</a>
                         </li>
                         <li>
                             <a href="tasks.html?func=list" style="display: block;">Tasks</a>
                         </li>
-                        <li>
-                            <a href="help.html" style="display: block;">Help</a>
+                        <li class="active">
+                            <a href="#" style="display: block;">Help</a>
                         </li>
                     </ul>
                 </div>
@@ -48,12 +48,43 @@
         </div>
         <div class="container" style="padding:5px">
             <div class="panel panel-primary">
-                <div class="panel-heading">Projects View</div>
+                <div class="panel-heading">Projects View Help</div>
                 <div class="panel-body">
-                    <a class="btn btn-sm btn-success" id="newproject" href="tasks.html?func=list"><i class="fa fa-external-link" aria-hidden="true"></i> Tasks</a>
-                    <a class="btn btn-sm btn-primary" id="newproject" href="newproject.html?func=new"><i class="fa fa-plus-circle" aria-hidden="true"></i> Project</a>
-                    <ul id="projectlist" class="list-group" style="padding-top:4px"> 
-</ul>
+                    <button type="button" class="btn btn-danger btn-xs" aria-hidden="true">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>                                                                                                                                                                                                                            Delete Project
+                    <br />
+                    <br />
+                    <button type="button" class="btn btn-default btn-xs" aria-hidden="true">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>                                                                                                                                                                                                                            Edit Project
+                    <br />
+                    <br />
+                    <button type="button" class="btn btn-primary btn-xs" aria-hidden="true">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </button>                                                                                                                                                                                                                            Filter Tasks By Project
+                    <br />
+                    <br />
+                    <span class="badge">PROJ</span> Project Short Code
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Tasks View Help</div>
+                <div class="panel-body">
+                    <button type="button" class="btn btn-danger btn-xs" aria-hidden="true">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>                                                                                                                                            Delete Task
+                    <br />
+                    <br />
+                    <button type="button" class="btn btn-default btn-xs" aria-hidden="true">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </button>                                                                                                                                            Edit Task
+                    <br />
+                    <br />
+                    <span class="badge">Project Short Code</span>&nbsp;
+                    <p style="display:inline-block;color:#00f;">Task Name</p>
+                    <br />
+                    <p style="display:inline-block;color:#000;">(Touch <strong>Task Name</strong> to show details and due date)</p>
                 </div>
             </div>
         </div>

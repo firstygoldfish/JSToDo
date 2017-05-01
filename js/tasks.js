@@ -148,12 +148,12 @@ function generateTaskElement(taskid) {
   }
   var htmlcode = '<div id="TASK_'+taskid+'" class="panel panel-default"> \
             <div class="panel-heading"> <h4 class="panel-title">\
-            <button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
+            <button type="button" class="btn btn-danger btn-xs" aria-hidden="true" onclick="confirmRemove('+taskid+')">\
             <i class="fa fa-times" aria-hidden="true"></i>\
             </button>\
-            <button type="button" class="btn btn-default" aria-hidden="true" onclick="editTask('+taskid+')">\
+            <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editTask('+taskid+')">\
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-            </button>&nbsp;&nbsp;<br/><span class="badge">'+getProjCode(data[taskid].taskproj)+'</span>&nbsp;\
+            </button>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span><br/>\
             <a style="display:inline-block; padding-top:10px;" class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
             </div> \
             <div id="TASKDET_'+taskid+'" class="panel-collapse collapse"> \

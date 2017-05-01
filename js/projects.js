@@ -12,22 +12,22 @@ if(localStorage.getItem('ToDoTraxProjects')) {
     for (var projid in data) {
         var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">';
         if (projid != 0) {
-          htmlcode += '<button type="button" class="btn btn-danger" aria-hidden="true" onclick="confirmRemove('+projid+')">\
+          htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true" onclick="confirmRemove('+projid+')">\
           <i class="fa fa-times" aria-hidden="true"></i>\
           </button>\
-          <button type="button" class="btn btn-default" aria-hidden="true" onclick="editProject('+projid+')">\
+          <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editProject('+projid+')">\
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
           </button>';
         } else {
-          htmlcode += '<button type="button" class="btn btn-danger" aria-hidden="true">\
+          htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true">\
           <i class="fa fa-ban" aria-hidden="true"></i></button>\
-          <button type="button" class="btn btn-default" aria-hidden="true">\
+          <button type="button" class="btn btn-default btn-xs" aria-hidden="true">\
           <i class="fa fa-ban" aria-hidden="true"></i>\
           </button>';
         }
-        htmlcode += '&nbsp;<button type="button" class="btn btn-primary" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
+        htmlcode += '&nbsp;<button type="button" class="btn btn-primary btn-xs" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
         <i class="fa fa-filter" aria-hidden="true"></i>\
-        </button>&nbsp;&nbsp;<strong>\
+        </button>&nbsp;<strong>\
         '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
         </li>'
         $('#projectlist').append(htmlcode);
