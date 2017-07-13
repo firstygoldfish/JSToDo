@@ -58,14 +58,19 @@
                             <input type="text" class="form-control" placeholder="Project ID" id="newtaskid" style="display:none">
                             <label class="control-label" for="newprojectname">Task Name</label>                             
                             <input type="text" class="form-control" id="newtaskname" placeholder="Enter name"> 
-                        </div>                         
-                        <div class="form-group"> 
+                        </div>   
+                        <div id="tasknotes" class="form-group" style="display:none">
+                            <label class="control-label" for="newtasknotes">Task Notes</label>
+                            <!-- <textarea class="form-control" id="newtasknotes" placeholder="Enter notes" rows="3"></textarea>                  -->
+                            <textarea id="newtasknotes" style="display:none;" class="mytextarea" rows="2"></textarea>
+                        </div>                                              
+                        <div class="form-group" id="taskproject"> 
                             <label class="control-label" for="projectdescription">Parent Project</label>
                             <select id="newtaskproject" class="form-control"> 
                                 <option value="0">ToDo</option>                                 
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="taskdescription">
                             <label class="control-label" for="projectdescription">Task Description</label>
                             <textarea class="form-control" id="newtaskdescription" placeholder="Enter description" rows="3"></textarea>                             
                         </div>                         
@@ -75,11 +80,6 @@
                                 <input id="newtaskduedate" type="text" class="form-control" readonly>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                             </div>
-                        </div>
-                        <div id="tasknotes" class="form-group" style="display:none">
-                            <label class="control-label" for="newtasknotes">Task Notes</label>
-                            <!-- <textarea class="form-control" id="newtasknotes" placeholder="Enter notes" rows="3"></textarea>                  -->
-                            <textarea id="newtasknotes" style="display:none;" class="mytextarea" rows="2"></textarea>
                         </div>
                         <div class="form-group"> 
                             <input type="text" class="form-control" id="newtaskcreatedate" style="display:none"> 

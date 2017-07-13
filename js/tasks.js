@@ -50,7 +50,8 @@ if(localStorage.getItem('ToDoTraxTasks')) {
     }
     // Sort by due date then generate the elements in order
     keysSorted = Object.keys(sortdata).sort(function(a,b){return sortdata[a]-sortdata[b]});
-    for (var i=0; i < keysSorted.length; i++ ) {
+    //for (var i=0; i < keysSorted.length; i++ ) {
+	for (var i=keysSorted.length-1; i >= 0; i-- ) {
       generateTaskElement(keysSorted[i]);
     }
 }
@@ -65,6 +66,25 @@ if (pagefunc == 'edit') {
   $('#newtaskcreatedate').val(data[taskid].taskcreated);
   $('#newtasknotes').val(data[taskid].tasknotes);
   $('#tasknotes').show();
+} else if (pagefunc == 'notes') {
+  // Populate edit values
+  var taskid = getParameterByName('id');
+  $('#newtaskproject').val(data[taskid].taskproj);
+  $('#newtaskname').val(data[taskid].taskname);
+  $('#newtaskdescription').val(data[taskid].taskdesc);
+  $('#newtaskduedate').val(data[taskid].taskdue);
+  $('#newtaskcreatedate').val(data[taskid].taskcreated);
+  $('#newtasknotes').val(data[taskid].tasknotes);
+  $('#tasknotes').show();
+  $('#newtaskproject').hide();
+  $('#taskproject').hide();
+  $('#newtaskname').val(data[taskid].taskname);
+  $('#newtaskname').prop("readonly", true);
+  $('#newtaskdescription').hide();
+  $('#taskdescription').hide();
+  $('#newtaskduedate').hide();
+  $('#newtaskcreatedate').hide();
+  $('#sandbox-container').hide();
 } else if (pagefunc == 'new') {
   // Generate new ID
   taskid = new Date().getTime();
@@ -154,6 +174,9 @@ function generateTaskElement(taskid) {
             </button>\
             <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editTask('+taskid+')">\
             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
+            </button>\
+            <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editNotes('+taskid+')">\
+            <i class="fa fa-book" aria-hidden="true"></i>\
             </button>&nbsp;<span class="label label-info">'+duemsg+'</span>&nbsp;<span class="badge">'+getProjCode(data[taskid].taskproj)+'</span><br/>\
             <a style="display:inline-block; padding-top:10px;" class="collapsed" data-toggle="collapse" data-parent="#tasklist" href="#TASKDET_'+taskid+'">'+data[taskid].taskname+'</a></h4> \
             </div> \
@@ -196,6 +219,11 @@ function removeProject(taskid) {
 // EDIT PROJECT
 function editTask(taskid) {
     window.location.replace('newtask.html?func=edit&id='+taskid);
+}
+
+// EDIT NOTES
+function editNotes(taskid) {
+    window.location.replace('newtask.html?func=notes&id='+taskid);
 }
 
 // GET URL PARAMETERS
