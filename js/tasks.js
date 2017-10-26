@@ -23,7 +23,7 @@ if(localStorage.getItem('ToDoTraxProjects')) {
 if (pagefunc != 'list') {
   $('#pagetitle').html(initCap(pagefunc) + ' Task');
   for (var projid in projdata) {
-    $('#newtaskproject').append($('<option></option>').attr('value',projid).text(projdata[projid].projname));
+    if (projid != 0) { $('#newtaskproject').append($('<option></option>').attr('value',projid).text(projdata[projid].projname)); }
   }
 }
 if (pagefunc == 'new') { $('#newtaskname').focus(); }
