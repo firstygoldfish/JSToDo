@@ -21,7 +21,7 @@ if(localStorage.getItem('ToDoTraxProjects')) {
 
 // update page elements
 if (pagefunc != 'list') {
-  $('#pagetitle').html('Task : ' + initCap(pagefunc));
+  $('#pagetitle').html(initCap(pagefunc) + ' Task');
   for (var projid in projdata) {
     $('#newtaskproject').append($('<option></option>').attr('value',projid).text(projdata[projid].projname));
   }

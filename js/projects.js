@@ -17,7 +17,7 @@ if(localStorage.getItem('ToDoTraxProjects')) {
 
 // Get page function
 var pagefunc = getParameterByName('func');
-if (pagefunc != 'list') { $('#pagetitle').html(initCap(pagefunc) + ' Project'); }
+if (pagefunc != 'list' && pagefunc != undefined) { $('#pagetitle').html(initCap(pagefunc) + ' Project'); }
 if (pagefunc == 'new') { $('#newprojectname').focus(); }
 
 if (pagefunc == 'edit') {
@@ -79,25 +79,24 @@ $('#saveproject').click( function() {
 // GENERATE PROJECT ELEMENTS
 function generateProjectElements() {
   for (var projid in data) {
-      var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item">';
-      if (projid != 0) {
-        htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true" onclick="confirmRemove('+projid+')">\
+      var htmlcode = '<li id="PROJ_'+projid+'" class="list-group-item"><strong>'+data[projid].projname+'</strong>&nbsp;<span class="badge">'+data[projid].projcode+'</span></br>&nbsp;<span class="pull-left">';
+      if (projid != 0) { // Don't allow changing the TODO project (as its default)
+        htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true" data-toggle="tooltip" title="Delete" onclick="confirmRemove('+projid+')">\
         <i class="fa fa-times" aria-hidden="true"></i>\
         </button>\
-        <button type="button" class="btn btn-default btn-xs" aria-hidden="true" onclick="editProject('+projid+')">\
+        <button type="button" class="btn btn-default btn-xs" aria-hidden="true" data-toggle="tooltip" title="Edit" onclick="editProject('+projid+')">\
         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>\
-        </button>';
-      } else {
+        </button>&nbsp;';
+      }/* else {
         htmlcode += '<button type="button" class="btn btn-danger btn-xs" aria-hidden="true">\
-        <i class="fa fa-ban" aria-hidden="true"></i></button>\
+        <i class="fa fa-window-close" aria-hidden="true"></i></button>\
         <button type="button" class="btn btn-default btn-xs" aria-hidden="true">\
-        <i class="fa fa-ban" aria-hidden="true"></i>\
-        </button>';
-      }
-      htmlcode += '&nbsp;<button type="button" class="btn btn-primary btn-xs" aria-hidden="true" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
+        <i class="fa fa-window-close" aria-hidden="true"></i>\
+        </button>&nbsp;';
+      }*/
+      htmlcode += '<button type="button" class="btn btn-primary btn-xs" aria-hidden="true" data-toggle="tooltip" title="Filter Tasks" onclick="window.location.replace(\'tasks.html?func=list&filter='+projid+'\')">\
       <i class="fa fa-filter" aria-hidden="true"></i>\
-      </button>&nbsp;<strong>\
-      '+data[projid].projname+'</strong><span class="badge">'+data[projid].projcode+'</span>\
+      </button>&nbsp;</span>\
       </li>'
       $('#projectlist').append(htmlcode);
     }
@@ -163,7 +162,9 @@ function getParameterByName(name, url) {
 
 // INITCAP extension to STRING
 function initCap (msg) {
+  if (msg.length > 0) {
    return msg.toLowerCase().replace(/(?:^|\s)[a-z]/g, function (m) {
       return m.toUpperCase();
    });
+  }
 };
